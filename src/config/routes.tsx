@@ -1,17 +1,18 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import Login from '../views/Login';
-import Home from '../views/Home';
-import UserManagement from '../views/UserManagement';
-import UserForm from '../views/UserForm';
 import ProtectedRoute from '../ProtectedRoute';
-import RestrictedLayout from '../layout/RestrictedLayout';
-import ShoppingCart from '../components/ShoppingCart';
-import HomeCliente from '../components/HomeCliente';
 import DetalhesPrato from '../components/DetalhesPrato';
 import FormularioPrato from '../components/FormularioPrato';
+import HomeCliente from '../components/HomeCliente';
+import ShoppingCart from '../components/ShoppingCart';
 import { AuthProvider } from '../context/authContext';
 import { CartProvider } from '../context/cartContext';
+import RestrictedLayout from '../layout/RestrictedLayout';
+import Home from '../views/Home';
+import Login from '../views/Login';
+import OrderManagement from '../views/OrderManagement';
+import UserForm from '../views/UserForm';
+import UserManagement from '../views/UserManagement';
 
 export interface RouteConfig {
   path: string;
@@ -25,7 +26,7 @@ const routes: RouteConfig[] = [
     element: <Login />,
   },
   {
-    path: 'cardapio',
+    path: '/',
     element: (
       <CartProvider>
         <HomeCliente />
@@ -49,11 +50,11 @@ const routes: RouteConfig[] = [
     ),
   },
   {
-    path: '/',
+    path: '/admin',
     element: <ProtectedRoute />,
     children: [
       {
-        path: 'admin',
+        path: '',
         element: (
           <AuthProvider>
             <RestrictedLayout />
@@ -88,13 +89,17 @@ const routes: RouteConfig[] = [
             path: 'usuarios/editar/:id',
             element: <UserForm isEditing />,
           },
+          {
+            path: 'pedidos',
+            element: <OrderManagement />,
+          },
         ],
       },
     ],
   },
   {
     path: '*',
-    element: <Navigate to="/cardapio" replace />,
+    element: <Navigate to="/" replace />,
   },
 ];
 
